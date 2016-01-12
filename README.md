@@ -16,4 +16,8 @@ This version only support wlp2s0 device(s)
 
 # How to use it?
 
-```cargo build --release && sudo cargo run -- [options]```
+```
+cargo build --release
+cargo run -- -p (list devices to sniff)
+cargo run -- -d <device_name_to_sniff>
+```
