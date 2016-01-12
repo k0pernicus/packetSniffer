@@ -1,7 +1,7 @@
 extern crate argparse;
 extern crate pcap;
 
-use argparse::{ArgumentParser, StoreTrue};
+use argparse::{ArgumentParser, Store, StoreTrue};
 use pcap::{Capture, Device};
 
 ///
@@ -18,28 +18,27 @@ fn print_available_devices<'a> (vec_devices : &'a Vec<Device>) {
 }
 
 ///
-/// Simple procedure to get the WLP2S0 device
-/// wlp2s0_device : A single Device structure to save the wlp2s0 device
+/// Simple procedure to get the requested_device device
+/// requested_device : A single Device structure to save the requested_device device
 /// vec_devices : A vector of Device objects
 ///
-fn get_wlp2s0_device<'a> (wlp2s0_device : &'a mut Device, vec_devices : &'a Vec<Device>) {
+fn get_requested_device<'a> (requested_device_s : &str, requested_device : &'a mut Device, vec_devices : &'a Vec<Device>) {
     for device in vec_devices {
-        match &*device.name {
-            "wlp2s0" => {
-                wlp2s0_device.name = device.name.clone();
-                wlp2s0_device.desc = device.desc.clone();
-                println!("-wlp2s0 device has been captured!");
-            },
-            _ => ()
-        }
-    }
+        if &*device.name == requested_device_s {
+                requested_device.name = device.name.clone();
+                requested_device.desc = device.desc.clone();
+                println!("-{} device has been captured!", requested_device_s);
+        };
+    };
 }
 
 fn main() {
 
+    let mut requested_device : Device = Device::lookup().unwrap();
+
     // Arguments
-    let mut capture_devices : bool = false;
     let mut print_devices : bool = false;
+    let mut requested_device_s : String = "wlp2s0".to_string();
     let mut verbose : bool = false;
     {
         let mut argparse = ArgumentParser::new();
@@ -47,6 +46,9 @@ fn main() {
         argparse.refer(&mut print_devices)
             .add_option(&["-p", "--print_devices"], StoreTrue,
             "Print devices found");
+        argparse.refer(&mut requested_device_s)
+            .add_option(&["-d", "--device"], Store,
+            "Request a device");
         argparse.refer(&mut verbose)
             .add_option(&["-v", "--verbose"], StoreTrue,
             "Be verbose");
@@ -56,28 +58,30 @@ fn main() {
 
     // For tools
     let devices = Device::list();
-    let mut wlp2s0_device : Device = Device::lookup().unwrap();
+
+    println!("requested_device : {}", requested_device_s);
 
     // Begin
     match devices {
         Ok(vec_devices) => {
             if print_devices {
                 print_available_devices(&vec_devices);
+                std::process::exit(0);
             }
-            get_wlp2s0_device(&mut wlp2s0_device, &vec_devices);
+            get_requested_device(&requested_device_s, &mut requested_device, &vec_devices);
         }
         Err(_) => {
             println!("No devices found...");
             std::process::exit(1);
         },
     }
-    // Verify if the device name is "wlp2s0"
-    if wlp2s0_device.name != "wlp2s0" {
+
+    if requested_device.name != requested_device_s {
         std::process::exit(1);
     }
 
     // Capture the device
-    let mut cap = Capture::from_device(wlp2s0_device).unwrap()
+    let mut cap = Capture::from_device(requested_device).unwrap()
                         .open().unwrap();
 
     // Create the file to save in results
