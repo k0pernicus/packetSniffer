@@ -60,9 +60,13 @@ fn main() {
     // For tools
     let devices = Device::list();
     let mut wlp2s0_device : Device = Device::lookup().unwrap();
+
+    // Begin
     match devices {
         Ok(vec_devices) => {
-            print_available_devices(&vec_devices);
+            if print_devices {
+                print_available_devices(&vec_devices);
+            }
             get_wlp2s0_device(&mut wlp2s0_device, &vec_devices);
         }
         Err(_) => {
