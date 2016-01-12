@@ -81,8 +81,6 @@ fn main() {
 
     // Capture the device
     let mut cap = Capture::from_device(wlp2s0_device).unwrap()
-                        .promisc(true)
-                        .snaplen(5000)
                         .open().unwrap();
 
     // Create the file to save in results
