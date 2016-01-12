@@ -11,7 +11,9 @@ antonin[dot]carette[at]gmail[dot]com
 
 # Goal
 
-A simple personal packet sniffer in Rust.
+A simple personal packet sniffer in Rust.  
+This software will save informations received in a .pcap file, in ```rslts``` directory.  
+You can visualize these informations with ```tcpdump``` like ```tcpdump -qns 0 -A -r rslts.pcap```.
 
 # How to use it?
 
