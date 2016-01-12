@@ -44,9 +44,6 @@ fn main() {
     {
         let mut argparse = ArgumentParser::new();
         argparse.set_description("Hot Rust tool to sniff what you want...");
-        argparse.refer(&mut capture_devices)
-            .add_option(&["-c", "--capture_devices"], StoreTrue,
-            "Capture external devices");
         argparse.refer(&mut print_devices)
             .add_option(&["-p", "--print_devices"], StoreTrue,
             "Print devices found");
