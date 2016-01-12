@@ -1,5 +1,7 @@
+extern crate argparse;
 extern crate pcap;
 
+use argparse::{ArgumentParser, StoreTrue};
 use pcap::{Capture, Device};
 
 ///
@@ -34,6 +36,28 @@ fn get_wlp2s0_device<'a> (wlp2s0_device : &'a mut Device, vec_devices : &'a Vec<
 }
 
 fn main() {
+
+    // Arguments
+    let mut capture_devices : bool = false;
+    let mut print_devices : bool = false;
+    let mut verbose : bool = false;
+    {
+        let mut argparse = ArgumentParser::new();
+        argparse.set_description("Hot Rust tool to sniff what you want...");
+        argparse.refer(&mut capture_devices)
+            .add_option(&["-c", "--capture_devices"], StoreTrue,
+            "Capture external devices");
+        argparse.refer(&mut print_devices)
+            .add_option(&["-p", "--print_devices"], StoreTrue,
+            "Print devices found");
+        argparse.refer(&mut verbose)
+            .add_option(&["-v", "--verbose"], StoreTrue,
+            "Be verbose");
+        // Other options
+        argparse.parse_args_or_exit();
+    }
+
+    // For tools
     let devices = Device::list();
     let mut wlp2s0_device : Device = Device::lookup().unwrap();
     match devices {
