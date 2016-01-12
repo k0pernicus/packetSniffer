@@ -11,8 +11,7 @@ antonin[dot]carette[at]gmail[dot]com
 
 # Goal
 
-A simple personal packet sniffer in Rust.  
-This version only support wlp2s0 device(s)
+A simple personal packet sniffer in Rust.
 
 # How to use it?
 
