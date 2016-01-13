@@ -8,7 +8,7 @@ use pcap::{Capture, Device};
 /// Procedure to print available devices
 /// vec_devices : Vector of Device objects
 ///
-fn print_available_devices(vec_devices: &Vec<Device>) {
+fn print_available_devices(vec_devices: &[Device]) {
     println!("-Available devices:", );
     for device in vec_devices {
         match device {
@@ -24,7 +24,7 @@ fn print_available_devices(vec_devices: &Vec<Device>) {
 ///
 fn get_requested_device(requested_device_s: &str,
                             requested_device: &mut Device,
-                            vec_devices: &Vec<Device>) {
+                            vec_devices: &[Device]) {
     for device in vec_devices {
         if &*device.name == requested_device_s {
             requested_device.name = device.name.clone();
