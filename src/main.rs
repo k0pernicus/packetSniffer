@@ -11,8 +11,13 @@ use pcap::{Capture, Device};
 fn print_available_devices(vec_devices: &[Device]) {
     println!("-Available devices:", );
     for device in vec_devices {
-        match device {
-            _ => println!("\t* Device {:?} : {:?}", device.name, device.desc),
+        match *device {
+            Device { ref name, desc: Some(ref desc) } => {
+                println!("\t* Device {} ({})", name, desc);
+            }
+            Device { ref name, desc: None } => {
+                println!("\t* Device {}", name);
+            }
         }
     }
 }
