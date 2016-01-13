@@ -4,5 +4,5 @@ version = "0.1.0"
 authors = ["k0pernicus <antonin.carette@gmail.com>"]
 
 [dependencies]
-argparse="*"
-"pcap"="*"
+argparse = "0.2"
+pcap = "0.5"
