@@ -26,7 +26,7 @@ fn get_requested_device(requested_device_s: &str,
                             requested_device: &mut Device,
                             vec_devices: &[Device]) {
     for device in vec_devices {
-        if &*device.name == requested_device_s {
+        if device.name == requested_device_s {
             requested_device.name = device.name.clone();
             requested_device.desc = device.desc.clone();
             println!("-{} device has been captured!", requested_device_s);
