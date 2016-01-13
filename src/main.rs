@@ -36,12 +36,12 @@ fn get_requested_device(requested_device_s: &str,
 
 fn main() {
 
-    let mut requested_device: Device = Device::lookup().unwrap();
+    let mut requested_device = Device::lookup().unwrap();
 
     // Arguments
-    let mut print_devices: bool = false;
-    let mut requested_device_s: String = "wlp2s0".to_string();
-    let mut verbose: bool = false;
+    let mut print_devices = false;
+    let mut requested_device_s = "wlp2s0".to_string();
+    let mut verbose = false;
     {
         let mut argparse = ArgumentParser::new();
         argparse.set_description("Hot Rust tool to sniff what you want...");
@@ -86,7 +86,7 @@ fn main() {
                       .unwrap();
 
     // Create the file to save in results
-    let mut file: pcap::Savefile = match cap.savefile("./rslts/rslts.pcap") {
+    let mut file = match cap.savefile("./rslts/rslts.pcap") {
         Ok(f) => f,
         Err(_) => std::process::exit(1),
     };
